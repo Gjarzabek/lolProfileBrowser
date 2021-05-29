@@ -6,6 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     summoner: {},
+    matchHistory: [],
     appState: 'empty' // 'loading' | 'notfound' | 'empty' | 'found'
   },
   mutations: {
@@ -14,6 +15,9 @@ export default new Vuex.Store({
     },
     changeAppState(state, appState) {
       state.appState = appState;
+    },
+    changeMatchHistory(state, matchHistory) {
+      state.matchHistory = matchHistory;
     }
   },
   actions: {

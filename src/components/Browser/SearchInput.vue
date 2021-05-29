@@ -15,7 +15,7 @@
             </v-btn>
           </template>
           <v-list>
-            <v-list-item class="hover" @click="chosenRegion=item"
+            <v-list-item class="hover-region" @click="chosenRegion=item"
               v-for="(item, index) in regions"
               :key="index"
             >
@@ -24,7 +24,7 @@
           </v-list>
         </v-menu>
       </v-col>
-      <v-col sm=10 md=5 lg=3>
+      <v-col sm=7 md=5 lg=3>
           <v-text-field
             hide-details
             v-model="summonerNameInput"
@@ -42,6 +42,9 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import {getLasstNMatches} from "@/Libcore/matchHistory"
+import {API_KEY} from "@/Libcore/apiKey"
+
 export default Vue.extend({
     props: [],
     data: () => {
@@ -77,7 +80,7 @@ export default Vue.extend({
         const regionPrefix = this.getRegionPrefix();
         console.log("reqion", regionPrefix);
         this.$store.commit('changeAppState', 'loading');
-        fetch(`https://${regionPrefix}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${this.summonerNameInput}?api_key=RGAPI-f6be56b2-cfe1-4cfb-bb6d-43b17de23d29`)
+        fetch(`https://${regionPrefix}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${this.summonerNameInput}?api_key=${API_KEY}`)
         .then((res) => {
           console.log("res", res);
           if (res.statusText !== "OK") {
@@ -85,11 +88,16 @@ export default Vue.extend({
             return;
           }
           res.json().then((summonerData)=>{
+            console.log("summonerData:", summonerData);
             const summoner = {
               name: summonerData.name,
               iconId: summonerData.profileIconId,
-              lvl: summonerData.summonerLevel
+              lvl: summonerData.summonerLevel,
+              puuid: summonerData.puuid
             }
+            getLasstNMatches('europe', summoner.puuid, (matchList: Array<any>)=>{
+              this.$store.commit('changeMatchHistory', matchList);
+            });
             this.$store.commit('changeAppState', 'found');
             this.$store.commit('changeSummoner', summoner);
           });

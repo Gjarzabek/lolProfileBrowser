@@ -1,13 +1,16 @@
 <template>
     <div class="ml-3 d-flex">
         <v-img
-            max-height="150"
-            max-width="150"
+            max-height="120"
+            max-width="120"
             :src="getIconUrl()"
             alt="Icon Image"
+            class="rounded-lg"
         ></v-img>
-        <div>{{Username}}</div>
-        <div>{{lvl}}</div>
+        <div class="ml-3">
+            <div class="headline font-weight-bold">{{Username}}</div>
+            <div class="accent--text">level: {{lvl}}</div>
+        </div>
     </div>
 </template>
 

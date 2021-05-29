@@ -2,17 +2,10 @@
   <div>
     <SearchInput/>
     <div v-if="$store.state.appState=='found'">
-      <Summoner :data="$store.state.summoner"/>
+      <Summoner  :data="$store.state.summoner"/>
+      <MatchHistory :history="$store.state.matchHistory"/>
     </div>
-    <div v-else-if="$store.state.appState=='empty'" class="no-summoner">
-      <v-icon size="100" color="dark">mdi-domino-mask</v-icon>
-      <div class="dark--text">No summoner to display</div>
-    </div>
-    <div v-else-if="$store.state.appState=='notfound'" class="no-summoner">
-      <v-icon size="100" color="dark">mdi-drama-masks</v-icon>
-      <div class="dark--text">Not found</div>
-    </div>
-    <Loading class="no-summoner" v-else-if="$store.state.appState=='loading'"/>
+    <StateInfo v-else/>
   </div>
 </template>
 
@@ -21,23 +14,16 @@
   import SearchInput from '@/components/Browser/SearchInput.vue'
   import Loading from '@/components/Browser/Loading.vue'
   import Summoner from '@/components/Browser/Summoner.vue'
+  import StateInfo from '@/components/Browser/StateInfo.vue'
+  import MatchHistory from '@/components/Browser/MatchHistory.vue'
 
   export default Vue.extend({
-    components: {SearchInput, Loading, Summoner},
+    components: {SearchInput, Loading, Summoner, StateInfo, MatchHistory},
     name: 'Browser',
-    data: () => ({}),
     methods: {}
   })
 </script>
 <style lang="sass">
-  .no-summoner
-    position: absolute
-    left: 50%
-    top: 50%
-    transform: translate(-50%, -50%) scale(1.6)
-    opacity: 0.6
-    text-align: center
-
-  .hover:hover
+  .hover-region:hover
     background-color: rgb(228, 228, 228)
 </style>
