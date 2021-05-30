@@ -80,6 +80,7 @@ export default Vue.extend({
         const regionPrefix = this.getRegionPrefix();
         console.log("reqion", regionPrefix);
         this.$store.commit('changeAppState', 'loading');
+        this.$store.commit('resetHistory');
         fetch(`https://${regionPrefix}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${this.summonerNameInput}?api_key=${API_KEY}`)
         .then((res) => {
           console.log("res", res);
@@ -95,9 +96,9 @@ export default Vue.extend({
               lvl: summonerData.summonerLevel,
               puuid: summonerData.puuid
             }
-            getLasstNMatches('europe', summoner.puuid, (matchList: Array<any>)=>{
-              this.$store.commit('changeMatchHistory', matchList);
-            });
+            getLasstNMatches('europe', summoner.puuid, (match: any)=>{
+              this.$store.commit('changeMatchHistory', match);
+            }, this.$store.state.maxMatchLen);
             this.$store.commit('changeAppState', 'found');
             this.$store.commit('changeSummoner', summoner);
           });

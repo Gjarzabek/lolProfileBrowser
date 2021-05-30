@@ -1,10 +1,11 @@
 <template>
     <div class="match-history mt-4 pa-4">
-        Meczyki
-        <div v-if="history!=[]">
-            <Match v-for="(item, index) in history" v-bind:key="index" :data="item"/>
-        </div>
-        <div v-else>ładowanie</div>
+        <Match v-for="(item, index) in history" v-bind:key="index" :data="item"/>
+        <v-progress-linear
+            v-if="!historyReady"
+            indeterminate
+            color="primary"
+        ></v-progress-linear>
     </div>
 </template>
 
@@ -16,7 +17,14 @@ export default Vue.extend({
     props: ["history"],
     methods: {},
     components: {Match},
-    computed: {}
+    computed: {
+        historyLen: function(): number {
+            return this.history.length;
+        },
+        historyReady: function(): boolean {
+            return this.historyLen >= this.$store.state.maxMatchLen;
+        }
+    }
 })
 </script>
 <style scoped>
