@@ -10,7 +10,7 @@ export default new Vuetify({
         themes: {
           light: {
             primary: colors.indigo,
-            secondary: colors.indigo.lighten4,
+            secondary: colors.blue,
             accent: colors.cyan.base,
           },
         },

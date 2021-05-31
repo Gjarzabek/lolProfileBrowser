@@ -70,6 +70,7 @@
       items: [
         { title: 'Browser', icon: 'mdi-account-search-outline', to: "/"},
         { title: 'About', icon: 'mdi-help-box', to: "/about"},
+        { title: 'Settings', icon: 'mdi-cog', to: "/settings"},
       ],
     }),
   }

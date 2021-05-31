@@ -8,7 +8,8 @@ export default new Vuex.Store({
     summoner: {},
     matchHistory: [undefined],
     maxMatchLen: 10,
-    appState: 'empty' // 'loading' | 'notfound' | 'empty' | 'found'
+    appState: 'empty', // 'loading' | 'notfound' | 'empty' | 'found'
+    API_KEY: 'RGAPI-58837c4c-f186-49e8-a365-6f371d1457fd'
   },
   mutations: {
     changeSummoner(state, playerData) {
@@ -23,6 +24,9 @@ export default new Vuex.Store({
     },
     resetHistory(state) {
       state.matchHistory = [];
+    },
+    changeKey(state, newKey) {
+      state.API_KEY = newKey;
     }
   },
   actions: {

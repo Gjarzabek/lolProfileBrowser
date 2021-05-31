@@ -1,1 +1,0 @@
-export const API_KEY:string = "RGAPI-158e7a61-c2aa-4fde-b12a-1fc8f52cb407";

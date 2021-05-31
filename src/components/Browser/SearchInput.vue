@@ -42,8 +42,6 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import {getLasstNMatches} from "@/Libcore/matchHistory"
-import {API_KEY} from "@/Libcore/apiKey"
 
 export default Vue.extend({
     props: [],
@@ -59,7 +57,7 @@ export default Vue.extend({
       }
     },
     methods: {
-      getRegionPrefix(): string {
+      getServerPrefix(): string {
         switch(this.chosenRegion.title) {
           case 'EUNE':
             return "eun1";
@@ -68,41 +66,28 @@ export default Vue.extend({
           case 'North America':
             return 'na1';
           default:
-            return "";
+            return "eun1";
+        }
+      },
+      getRegion(): string {
+        switch(this.getServerPrefix()) {
+          case 'eun1':
+          case 'euw1':
+            return 'europe';
+          case 'na1':
+            return 'americas';
+          default:
+            return "europe";
         }
       },
       searchSummoner(): void {
         console.log("search", this.summonerNameInput);
         if (!this.summonerNameInput)  this.$store.commit('changeAppState', 'empty');
-        else this.fetchSummoner();
-      },
-      fetchSummoner(): void {
-        const regionPrefix = this.getRegionPrefix();
-        console.log("reqion", regionPrefix);
-        this.$store.commit('changeAppState', 'loading');
-        this.$store.commit('resetHistory');
-        fetch(`https://${regionPrefix}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${this.summonerNameInput}?api_key=${API_KEY}`)
-        .then((res) => {
-          console.log("res", res);
-          if (res.statusText !== "OK") {
-            this.$store.commit('changeAppState', 'notfound');
-            return;
-          }
-          res.json().then((summonerData)=>{
-            console.log("summonerData:", summonerData);
-            const summoner = {
-              name: summonerData.name,
-              iconId: summonerData.profileIconId,
-              lvl: summonerData.summonerLevel,
-              puuid: summonerData.puuid
-            }
-            getLasstNMatches('europe', summoner.puuid, (match: any)=>{
-              this.$store.commit('changeMatchHistory', match);
-            }, this.$store.state.maxMatchLen);
-            this.$store.commit('changeAppState', 'found');
-            this.$store.commit('changeSummoner', summoner);
-          });
-        })
+        else this.$emit('search', {
+          serverPrefix: this.getServerPrefix(),
+          region: this.getRegion(),
+          name: this.summonerNameInput
+        });
       }
     },
     components: {},

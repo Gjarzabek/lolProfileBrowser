@@ -1,6 +1,6 @@
 <template>
-    <div class="match-history mt-4 pa-4">
-        <Match v-for="(item, index) in history" v-bind:key="index" :data="item"/>
+    <div class="match-history mt-4">
+        <Match @search="forwardSearch" class='mt-4' v-for="(item, index) in history" v-bind:key="index" :data="item"/>
         <v-progress-linear
             v-if="!historyReady"
             indeterminate
@@ -15,7 +15,11 @@ import Match from '@/components/Browser/Match.vue'
 
 export default Vue.extend({
     props: ["history"],
-    methods: {},
+    methods: {
+        forwardSearch(val: any): void {
+            this.$emit('search', val);
+        }
+    },
     components: {Match},
     computed: {
         historyLen: function(): number {
@@ -30,7 +34,6 @@ export default Vue.extend({
 <style scoped>
 .match-history {
     position: relative;
-    border-top: 1px solid rgb(196, 196, 196);
 }
 
 .match-history::after {
