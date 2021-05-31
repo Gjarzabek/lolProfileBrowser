@@ -8,12 +8,12 @@
           <v-container fluid>
             <v-row align="center" justify="space-between">
                 <v-col cols=12 md=5 class="rounded-lg">
-                  <div class="pl-3 rounded title grey lighten-5" :class="winInfoColor(leftTeamWin)">{{winInfoText(true)}}</div>  
+                  <div class="font-weight-bold text-center pa-2 rounded title" :class="winInfoColor(leftTeamWin)">{{winInfoText(true)}}</div>  
                   <TeamPlayer @search="forwardSearch" v-for="(player, index) in leftTeam" :key="index" :player="player"/>
                 </v-col>
                 <v-col cols=12 md=1 class="accent--text accent-1 headline font-weight-black text-center">Vs</v-col>
                 <v-col cols=12 md=5 class="rounded-xl">
-                  <div class="pl-3 rounded title grey lighten-5" :class="winInfoColor(!leftTeamWin)">{{winInfoText(false)}}</div>  
+                  <div class="font-weight-bold text-center pa-2 rounded title" :class="winInfoColor(!leftTeamWin)">{{winInfoText(false)}}</div>  
                   <TeamPlayer @search="forwardSearch" v-for="(player, index) in rightTeam" :key="index" :player="player"/>
                 </v-col>
             </v-row>
@@ -60,9 +60,9 @@ export default Vue.extend({
       },
       winInfoColor: function(isWin: boolean): string {
         if (isWin) {
-          return 'green--text';
+          return 'green--text green lighten-4';
         }
-        else return 'red--text';
+        else return 'red--text red lighten-4';
       }
     },
     components: {TeamPlayer}

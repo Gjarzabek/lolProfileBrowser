@@ -1,7 +1,7 @@
 <template>
     <v-container fluid>
         <v-row justify="space-between" align="center">
-            <v-col md="2" class="d-flex align-center">
+            <v-col cols=6 sm=4 md="2" class="d-flex align-center">
                 <v-img
                     max-height="80"
                     max-width="80"
@@ -14,11 +14,11 @@
                     <div class="secondary--text">level: {{summoner.level}}</div>
                 </div>
             </v-col>
-            <v-col md="1" class="text-left text-sm-right text-lg-center">
+            <v-col cols=6 sm=4 md="auto" class="text-right text-sm-center text-lg-center">
                 <div class="h6 font-weight-medium">{{kda}}</div>
                 <div class="body-2">{{cs}}</div>
             </v-col>
-            <v-col class="d-flex justify-end" align-self="center">
+            <v-col cols=4 sm=4 md="auto" class="d-flex justify-left justify-sm-end" align-self="center">
                 <v-img
                     max-height="30"
                     max-width="30"
@@ -34,17 +34,17 @@
                     class="rounded-circle"
                 ></v-img>
             </v-col>
-            <v-col md=3>
-                <div class="d-flex justify-start">
+            <v-col cols=8 sm=4 md="3">
+                <div class="d-flex justify-end justify-sm-start">
                     <v-img class="ma-1" max-height="35" max-width="35" v-for="(n, index) in validItems.slice(0, 3)" :key="index" :src="getItemUrl(n)"></v-img>
                 </div>
-                <div class="d-flex">
+                <div class="d-flex justify-end justify-sm-start">
                     <v-img class="ma-1" max-height="35" max-width="35" v-for="(n, index) in validItems.slice(3)" :key="index" :src="getItemUrl(n)"></v-img>
                 </div>
             </v-col>
-            <v-col class="primary--text text-right">{{matchDuration}}</v-col>
-            <v-col class="primary--text text-right">{{timeAgo}}</v-col>
-            <v-col class="headline text-right font-weight-black" :class="winInfoColorClass">{{winInfo}}</v-col>
+            <v-col class="primary--text text-left text-sm-center text-md-right">{{matchDuration}}</v-col>
+            <v-col class="primary--text text-center text-sm-right">{{timeAgo}}</v-col>
+            <v-col sm=12 class="headline text-right font-weight-black" :class="winInfoColorClass">{{winInfo}}</v-col>
         </v-row>
     </v-container>
 </template>

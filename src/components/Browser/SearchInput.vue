@@ -15,7 +15,7 @@
             </v-btn>
           </template>
           <v-list>
-            <v-list-item class="hover-region" @click="chosenRegion=item"
+            <v-list-item class="hover-region" @click="changeRegion(item)"
               v-for="(item, index) in regions"
               :key="index"
             >
@@ -24,7 +24,7 @@
           </v-list>
         </v-menu>
       </v-col>
-      <v-col sm=7 md=5 lg=3>
+      <v-col cols="auto" sm=7 md=5 lg=3>
           <v-text-field
             hide-details
             v-model="summonerNameInput"
@@ -87,6 +87,13 @@ export default Vue.extend({
           serverPrefix: this.getServerPrefix(),
           region: this.getRegion(),
           name: this.summonerNameInput
+        });
+      },
+      changeRegion(item: any): void {
+        this.chosenRegion = item;
+        this.$emit('newRegion', {
+          region: this.getRegion(),
+          serverPrefix: this.getServerPrefix()
         });
       }
     },

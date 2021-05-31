@@ -1,11 +1,16 @@
 <template>
     <div class="match-history mt-4">
-        <Match @search="forwardSearch" class='mt-4' v-for="(item, index) in history" v-bind:key="index" :data="item"/>
-        <v-progress-linear
-            v-if="!historyReady"
-            indeterminate
-            color="primary"
-        ></v-progress-linear>
+        <div class="rounded ml-3 title grey lighten-4 primary--text" v-if="$store.state.matchHistoryState === 'empty'">
+            No recent matches played
+        </div>
+        <div v-else>
+            <Match @search="forwardSearch" class='mt-4' v-for="(item, index) in history" v-bind:key="index" :data="item"/>
+            <v-progress-linear
+                v-if="!historyReady"
+                indeterminate
+                color="primary"
+            ></v-progress-linear>
+        </div>
     </div>
 </template>
 
@@ -26,7 +31,7 @@ export default Vue.extend({
             return this.history.length;
         },
         historyReady: function(): boolean {
-            return this.historyLen >= this.$store.state.maxMatchLen;
+            return this.$store.state.matchHistoryState === 'ready';
         }
     }
 })
@@ -40,7 +45,7 @@ export default Vue.extend({
     content: "match history";
     position: absolute;
     bottom: 100%;
-    right: 4px;
+    right: 5px;
     color: rgb(138, 138, 138);
 }
 </style>

@@ -9,8 +9,12 @@
         text="Not found"
         />
         <IconNotification class="state-info" v-else-if="$store.state.appState=='badkey'"
-        icon="mdi-alert-circle"
-        text="Wrong Api Key!"
+        icon="mdi-alert-circle-outline"
+        text="Access denied - check your API key"
+        />
+        <IconNotification class="state-info" v-else-if="$store.state.appState=='error'"
+        icon="mdi-kettle-alert"
+        text="Something went wrong"
         />
         <Loading class="state-info" v-else-if="$store.state.appState=='loading'"/>
     </div>

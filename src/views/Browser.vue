@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SearchInput @search="fetchSummoner"/>
+    <SearchInput @newRegion="changeRegion" @search="fetchSummoner"/>
     <div v-if="$store.state.appState=='found'">
       <Summoner  :data="$store.state.summoner"/>
       <MatchHistory :history="$store.state.matchHistory" @search="fetchSummoner"/>
@@ -21,13 +21,18 @@
   export default Vue.extend({
     data() {
       return {
-        serverPrefix: "",
-        region: ""
+        serverPrefix: "eun1",
+        region: "europe"
       }
     },
     components: {SearchInput, Loading, Summoner, StateInfo, MatchHistory},
     name: 'Browser',
     methods: {
+      changeRegion(regionObj: any): void {
+        this.serverPrefix = regionObj.serverPrefix;
+        this.region = regionObj.region;
+        console.log(this.serverPrefix, this.region);
+      },
       fetchSummoner(reqParams: any): void {
         if (reqParams.serverPrefix) this.serverPrefix = reqParams.serverPrefix;
         if (reqParams.region)       this.region = reqParams.region;
@@ -38,8 +43,16 @@
         fetch(`https://${this.serverPrefix}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${this.$store.state.API_KEY}`)
         .then((res) => {
           console.log("res", res);
-          if (res.statusText !== "OK") {
+          if (res.status === 401 || res.status === 403) {
+            this.$store.commit('changeAppState', 'badkey');
+            return;
+          }
+          else if (res.status === 404) {
             this.$store.commit('changeAppState', 'notfound');
+            return;
+          }
+          else if (res.statusText !== "OK") {
+            this.$store.commit('changeAppState', 'error');
             return;
           }
           res.json().then((summonerData)=>{
@@ -50,8 +63,16 @@
               lvl: summonerData.summonerLevel,
               puuid: summonerData.puuid
             }
-            getLasstNMatches(this.region, summoner.puuid, (matchHist: any)=>{
-              this.$store.commit('changeMatchHistory', matchHist);
+            getLasstNMatches(this.region, summoner.puuid, (matchList: any)=>{
+              if (matchList === 'noHistory') {
+                this.$store.commit('changeHistoryState', 'empty');
+                return;
+              }
+              else if (matchList === 'emptyMatch') {
+                this.$store.commit('changeHistoryState', 'ready');
+                return;
+              }
+              this.$store.commit('changeMatchHistory', matchList);
             }, this.$store.state.maxMatchLen, summonerName, this.$store.state.API_KEY);
             this.$store.commit('changeAppState', 'found');
             this.$store.commit('changeSummoner', summoner);

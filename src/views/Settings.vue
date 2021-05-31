@@ -47,7 +47,7 @@ export default Vue.extend({
             this.loaded = true;
             this.$store.commit('changeKey', this.keyInput);
             this.keyInput = "";
-            setTimeout(()=>{this.loaded=false}, 2000);
+            setTimeout(()=>{this.loaded=false}, 1500);
         }
     }
 })

@@ -1,18 +1,18 @@
 <template>
-    <v-container fluid class="mt-1 custom-hover rounded-lg" @click="$emit('search', {name: player.summonerName})">
+    <v-container fluid class="mt-1 custom-hover rounded-lg" :class="searchedSummonerColor" @click="$emit('search', {name: player.summonerName})">
         <v-row align="center">
-            <v-col>
+            <v-col cols="12" sm="3" class="d-flex align-center justify-center">
                 <v-img
-                max-height="40"
-                max-width="40"
+                max-height="70"
+                max-width="70"
                 :src="getChampIconUrl(player.championName)"
                 alt="Icon Image"
                 >
                 </v-img>
             </v-col>
-            <v-col class="h6 text-center font-weight-black">{{player.summonerName}}</v-col>
-            <v-col class="h6 text-center font-weight-medium">{{kda}}</v-col>
-            <v-col class="text-center body-2">{{cs}}</v-col>
+            <v-col cols="12" sm="3" class="h6 text-center text-sm-left font-weight-black">{{player.summonerName}}</v-col>
+            <v-col cols="12" sm="3" class="h6 text-center font-weight-medium">{{kda}}</v-col>
+            <v-col cols="12" sm="3" class="text-center text-sm-right body-2">{{cs}}</v-col>
         </v-row>
     </v-container>
 </template>
@@ -33,6 +33,12 @@ export default Vue.extend({
         },
         cs: function(): string {
             return `${this.player.cs} CS`;
+        },
+        searchedSummonerColor: function(): string {
+            if (this.player.summonerName === this.$store.state.summoner.name)
+                return 'accent lighten-2';
+            else
+                return '';
         }
     }
 })
