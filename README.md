@@ -1,5 +1,7 @@
 # task-lolapp
 ! App will work only on browsers with disabled cors. Below instructions how to run google-chrome with cors disabled
+! Development Riot Api key expires in 24h.
+  If a key expired, enter yours using key input in a settings card or email me and i will send you one
 
 
 ## Project setup
