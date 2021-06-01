@@ -9,7 +9,7 @@
               dark
               v-bind="attrs"
               v-on="on"
-              min-width="160"
+              min-width="80"
             >
               {{chosenRegion.title}}
             </v-btn>
@@ -24,7 +24,7 @@
           </v-list>
         </v-menu>
       </v-col>
-      <v-col cols="auto" sm=7 md=5 lg=3>
+      <v-col sm=7 md=5 lg=3 xl=2>
           <v-text-field
             hide-details
             v-model="summonerNameInput"
@@ -48,7 +48,7 @@ export default Vue.extend({
     data: () => {
       return {
         regions: [
-          { title: 'North America' },
+          { title: 'NA' },
           { title: 'EUW' },
           { title: 'EUNE' }
         ],
@@ -63,7 +63,7 @@ export default Vue.extend({
             return "eun1";
           case 'EUW':
             return "euw1";
-          case 'North America':
+          case 'NA':
             return 'na1';
           default:
             return "eun1";
